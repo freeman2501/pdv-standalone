@@ -66,6 +66,10 @@ endif
 if !exists('g:pdv_cfg_Version')
   let g:pdv_cfg_Version = ""
 endif
+" Value of @since tag. Defaults to "" which means off.
+if !exists('g:pdv_cfg_Since')
+  let g:pdv_cfg_Since = ""
+endif
 " Value of @author tag. Defaults to "" which means off.
 if !exists('g:pdv_cfg_Author')
   let g:pdv_cfg_Author = ""
@@ -281,6 +285,16 @@ func! PhpDocFunc()
     call add(l:comment_lines, l:indent . g:pdv_cfg_Comment1 . funcname)
     call add(l:comment_lines, l:indent . g:pdv_cfg_Commentn)
 
+    if g:pdv_cfg_Author != ""
+        call add(l:comment_lines, l:indent . g:pdv_cfg_Commentn . " @author " . g:pdv_cfg_Author)
+    endif
+    if g:pdv_cfg_Since != ""
+        call add(l:comment_lines, l:indent . g:pdv_cfg_Commentn . " @since " . g:pdv_cfg_Since)
+    endif
+    if g:pdv_cfg_Version != ""
+        call add(l:comment_lines, l:indent . g:pdv_cfg_Commentn . " @version " . g:pdv_cfg_Version)
+    endif
+    
     while (l:parameters != ",") && (l:parameters != "")
         " Save 1st parameter
         let _p = substitute (l:parameters, '\([^,]*\) *, *\(.*\)', '\1', "")
@@ -417,6 +431,9 @@ func! PhpDocClass()
     endif
     if g:pdv_cfg_Package != ""
         call add(l:comment_lines, l:indent . g:pdv_cfg_Commentn . " @package " . g:pdv_cfg_Package)
+    endif
+    if g:pdv_cfg_Since != ""
+        call add(l:comment_lines, l:indent . g:pdv_cfg_Commentn . " @since " . g:pdv_cfg_Since)
     endif
     if g:pdv_cfg_Version != ""
         call add(l:comment_lines, l:indent . g:pdv_cfg_Commentn . " @version " . g:pdv_cfg_Version)
